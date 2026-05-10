@@ -1,8 +1,10 @@
+const { setupPage } = require('../browser');
+
 /**
  * Linkvertise Puppeteer Scraper
  */
 async function scrapeLinkvertise(browser, url) {
-  const page = await browser.newPage();
+  const page = await setupPage(browser);
   
   // Anti-bot evasions
   await page.setViewport({ width: 1280, height: 800 });
