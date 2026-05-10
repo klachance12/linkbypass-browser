@@ -3,6 +3,7 @@ const express = require('express');
 const { createBrowser } = require('./browser');
 const { scrapeOuo } = require('./scrapers/ouo');
 const { scrapeGPLinks } = require('./scrapers/gplinks');
+const { scrapeLinkvertise } = require('./scrapers/linkvertise');
 
 const app = express();
 app.use(express.json());
@@ -25,6 +26,8 @@ app.post('/api/bypass', async (req, res) => {
       destination = await scrapeOuo(browserInstance, url);
     } else if (hostname.includes('shrinkme.') || hostname.includes('shrinke.')) {
       destination = await scrapeGPLinks(browserInstance, url);
+    } else if (hostname.includes('linkvertise.') || hostname.includes('link-to.') || hostname.includes('direct-link.')) {
+      destination = await scrapeLinkvertise(browserInstance, url);
     } else {
       return res.status(400).json({ error: 'Unsupported domain for browser bypass' });
     }
