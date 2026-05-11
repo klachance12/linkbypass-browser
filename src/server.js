@@ -4,6 +4,7 @@ const { createBrowser } = require('./browser');
 const { scrapeOuo } = require('./scrapers/ouo');
 const { scrapeGPLinks } = require('./scrapers/gplinks');
 const { scrapeLinkvertise } = require('./scrapers/linkvertise');
+const { scrapeRewardz } = require('./scrapers/rewardz');
 
 const app = express();
 app.use(express.json());
@@ -28,6 +29,8 @@ app.post('/api/bypass', async (req, res) => {
       destination = await scrapeGPLinks(browserInstance, url);
     } else if (hostname.includes('linkvertise.') || hostname.includes('link-to.') || hostname.includes('direct-link.')) {
       destination = await scrapeLinkvertise(browserInstance, url);
+    } else if (hostname.includes('depravityweb.') || hostname.includes('best-links.') || hostname.includes('rewardz.')) {
+      destination = await scrapeRewardz(browserInstance, url);
     } else {
       return res.status(400).json({ error: 'Unsupported domain for browser bypass' });
     }
